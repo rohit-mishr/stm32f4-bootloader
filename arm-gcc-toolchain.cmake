@@ -1,6 +1,7 @@
 # 1. Tell CMake we are cross-compiling (not building for the host OS)
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR arm)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # 2. Specify the exact cross-compilers to use
 # (Assumes arm-none-eabi-gcc is installed and in your system PATH)

@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 # 2. Define the project name and the languages we are using (C and Assembly)
-project(IndustrialEdgeNode LANGUAGES C ASM)
+project(IndustrialEdgeNode LANGUAGES C )
 
 # 3. Prevent beginners from doing "in-source" builds (messing up the source folders)
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
