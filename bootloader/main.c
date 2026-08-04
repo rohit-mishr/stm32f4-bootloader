@@ -2,6 +2,7 @@
 
 // We will assume the main application firmware is flashed starting at Sector 2
 #define MAIN_APP_START_ADDRESS 0x08008000
+#define SCB_VTOR_ADDRESS       0xE000ED08
 
 void jump_to_application(void) {
     // Step A: Read the main application's Stack Pointer
@@ -13,10 +14,13 @@ void jump_to_application(void) {
     // Step C: Cast to a C function pointer
     void (*app_reset_handler)(void) = (void (*)(void))app_jump_address;
     
-    // Step D: Physically set the ARM CPU's Main Stack Pointer (MSP)
-    __asm volatile("msr msp, %0" : : "r" (app_msp_value));
+    //Step D : set the vtor to the main app's address
+    *(volatile uint32_t*)SCB_VTOR_ADDRESS = MAIN_APP_START_ADDRESS;
     
-    // Step E: Jump! 
+    // Step E: Physically set the ARM CPU's Main Stack Pointer (MSP)
+    __asm volatile("msr msp, %0" : : "r" (app_msp_value));
+
+    // Step F: Jump! 
     app_reset_handler();
 }
 
