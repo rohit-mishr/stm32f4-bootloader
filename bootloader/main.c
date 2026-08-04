@@ -3,6 +3,30 @@
 // We will assume the main application firmware is flashed starting at Sector 2
 #define MAIN_APP_START_ADDRESS 0x08008000
 #define SCB_VTOR_ADDRESS       0xE000ED08
+// RCC (Reset and Clock Control) Base Address
+#define RCC_BASE       0x40023800
+
+// RCC Enable Registers (Base + Offset)
+#define RCC_AHB1ENR    *(volatile uint32_t*)(RCC_BASE + 0x30)
+#define RCC_APB1ENR    *(volatile uint32_t*)(RCC_BASE + 0x40)
+
+
+void bootloader_uart_init(void) {
+    // ==========================================
+    // STEP 1: ENABLE CLOCKS
+    // ==========================================
+    
+    // Enable the clock for GPIOA (AHB1 Bus, Bit 0)
+    RCC_AHB1ENR |= (1 << 0);
+    
+    // Enable the clock for USART2 (APB1 Bus, Bit 17)
+    RCC_APB1ENR |= (1 << 17);
+    
+    
+    // ==========================================
+    // STEP 2: CONFIGURE GPIO (Coming next...)
+    // ==========================================
+}
 
 void jump_to_application(void) {
     // Step A: Read the main application's Stack Pointer
