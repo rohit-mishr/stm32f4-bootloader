@@ -95,7 +95,19 @@ int main(void) {
     
     // 4. Jump to the main application
     // Temporary Hardware Test Loop
-
+    bootloader_uart_init();
+    
+    // Temporary Hardware Test Loop
+    while (1) {
+        char *s = "hello world\n";
+        // usart_send_char('h');
+        // usart_send_char('\n');
+        // A crude bare-metal delay so we don't flood the PC terminal
+        for(int i = 0 ; s[i]!='\0';i++){
+            usart_send_char(s[i]);
+        }
+        for(volatile int i = 0; i < 100000; i++); 
+    }
     jump_to_application();
     
     // The CPU has left the bootloader. It will never reach this while loop.
